@@ -1020,7 +1020,7 @@ rspBART <- function(x_train,
   # Plotting vaiable importance
   if(plot_preview){
     par(mfrow=c(1,2))
-    burn_sample_ <- 100
+    burn_sample_ <- 1000
     plot(1:NCOL(variable_importance_matrix),variable_importance_matrix[burn_sample_:i,,drop = FALSE] %>% colMeans(),
          ylab = "Prop. pred_var", xlab = "Predictor", main = c("Proportion Tree pred.vars"))
     points((1:NCOL(variable_importance_matrix))[c(1:5,11)],variable_importance_matrix[burn_sample_:i,c(1:5,11),drop = FALSE] %>% colMeans(),

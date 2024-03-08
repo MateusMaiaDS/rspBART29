@@ -13,7 +13,7 @@ devtools::load_all()
 
 # Simulation arguments
 set.seed(42)
-n_ <- 100
+n_ <- 250
 sd_ <- 1
 n_rep_ <- 10
 
@@ -135,7 +135,7 @@ x_train <- selected_train[,colnames(sim_train)!="y"]
 x_test <- selected_test[,colnames(sim_train)!="y"]
 y_train <- selected_train$y
 y_test <- selected_test$y
-n_tree <- 5
+n_tree <- 10
 n_mcmc <- 5000
 n_burn <- 3000
 alpha <- 0.5

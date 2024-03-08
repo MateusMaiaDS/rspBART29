@@ -1,5 +1,5 @@
 # All BART-lite interaction
-all_spbart_lite_interaction <- function(cv_element,
+all_spbart_lite_paper_cv <- function(cv_element,
                                         nIknots_,
                                         node_min_size_,
                                         ntree_,
@@ -63,7 +63,7 @@ all_spbart_lite_interaction <- function(cv_element,
                                 update_tau_beta = TRUE,
                                 linero_sampler = FALSE,plot_preview = FALSE,
                                 use_D_bool = FALSE,scale_basis_function = FALSE,
-                                store_tree_fit = FALSE,varimportance_bool = FALSE,
+                                store_tree_fit = FALSE,varimportance_bool = TRUE,
                                 robust_prior = FALSE,pen_basis = pen_basis_,eta = 1e-6,
                                 center_basis = TRUE)
 
@@ -142,7 +142,8 @@ all_spbart_lite_interaction_return_model <- function(cv_element,
     main_effects_pred_ <- FALSE
   } else {
     kfold_bool <- FALSE
-    main_effects_pred_ <- TRUE
+    main_effects_pred_ <- FALSE
+
   }
   # To replicate the results
   set.seed(seed_)

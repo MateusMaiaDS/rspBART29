@@ -328,8 +328,7 @@ grow <- function(tree,
                       parent_node = g_node_name,
                       ancestors = new_ancestors,
                       terminal = TRUE,
-                      betas_vec = g_node$betas_vec,
-                      gamma = g_node$gamma)
+                      betas_vec = g_node$betas_vec)
 
     right_node <- list(node_number = max_index+2,
                        master_var = g_node$master_var,
@@ -346,8 +345,7 @@ grow <- function(tree,
                        parent_node = g_node_name,
                        ancestors = new_ancestors,
                        terminal = TRUE,
-                       betas_vec = g_node$betas_vec,
-                       gamma = g_node$gamma)
+                       betas_vec = g_node$betas_vec)
 
     # Modifying the current node
     tree[[g_node_name]]$left = paste0("node",max_index+1)
@@ -383,7 +381,7 @@ add_variable <- function(tree,
   g_node <- tree[[g_node_name]]
 
   # If there are more than 3 interactions
-  if(g_node$pred_vars>3){
+  if(length(g_node$pred_vars)>3){
     return(tree)
   }
 
@@ -1026,7 +1024,7 @@ updateBetas <- function(tree,
 
       # old_betas <- matrix(tree[[t_nodes_names[i]]]$betas_vec[leaf_basis_subindex],nrow = 1) # This can be problematic
 
-      res_leaf <- matrix(curr_part_res[cu_t$train_index], ncol=1)
+      res_leaf <- matrix(curr_part_res[cu_t$train_index], ncol=1) - pred_minus_jj
 
       # Adding a new step where I remove the mean of the res_leaf
       # res_leaf_mean <- mean(res_leaf)
@@ -1075,60 +1073,7 @@ updateBetas <- function(tree,
 }
 
 
-# ============
-# Update Gammas
-# ============
-updateGammas <- function(tree,
-                        curr_part_res,
-                        data,
-                        basis_fit,
-                        intercept_fit,
-                        intercept_fit_test,
-                        tree_number){
 
-
-  # Getting the terminals
-  t_nodes_names <- get_terminals(tree)
-
-  intercept_fit_vec <- rep(NA, nrow(data$x_train))
-  intercept_fit_test_vec <- rep(NA, nrow(data$x_test))
-
-  for(i in 1:length(t_nodes_names)){
-
-
-    # Select the current terminal node
-    cu_t <- tree[[t_nodes_names[i]]]
-
-    # The lines above are summarised here
-    node_index_var <- cu_t$pred_vars
-
-    # Selecting the actually parameters subsetting
-    basis_dim <- NCOL(data$P)
-    basis_dim_interaction <- NCOL(data$P_interaction)
-    n_leaf <- length(cu_t$train_index)
-
-    # Calculate this first because is gonna be used in the variance term as well
-    mean_gamma_aux <- (n_leaf+data$tau_gamma)^(-1)
-    mean_gamma <- mean_gamma_aux*(sum(curr_part_res[cu_t$train_index])-
-                                    sum(basis_fit[tree_number,cu_t$train_index]))
-    sd_gamma <- sqrt(mean_gamma_aux/data$tau)
-
-    # Sampling the gamma
-    sample_gamma <- stats::rnorm(n = 1,mean = mean_gamma,sd = sd_gamma)
-
-    # Updating the tree
-    tree[[t_nodes_names[i]]]$gamma <- sample_gamma
-    intercept_fit_vec[cu_t$train_index] <- sample_gamma
-    intercept_fit_test_vec[cu_t$test_index] <- sample_gamma
-  }
-
-
-  # Returning the tree
-  return(list(tree = tree,
-              intercept_fit = intercept_fit_vec,
-              intercept_test = intercept_fit_test_vec))
-
-}
 
 
 # Generating betas using try
