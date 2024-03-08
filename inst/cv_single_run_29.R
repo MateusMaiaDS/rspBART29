@@ -6,14 +6,14 @@ library(purrr)
 library(MOTRbart)
 library(doParallel)
 library(tidyverse)
-source("/users/research/mmarques/spline_bart_lab/rspBART27/R/sim_functions_27.R")
-source("/users/research/mmarques/spline_bart_lab/rspBART27/R/main_function_27.R")
-devtools::load_all("/users/research/mmarques/spline_bart_lab/rspBART27/")
+source("R/sim_functions_29.R")
+source("R/main_function_29.R")
+devtools::load_all()
 
 
 # Simulation arguments
 set.seed(42)
-n_ <- 250
+n_ <- 100
 sd_ <- 1
 n_rep_ <- 10
 
@@ -135,9 +135,9 @@ x_train <- selected_train[,colnames(sim_train)!="y"]
 x_test <- selected_test[,colnames(sim_train)!="y"]
 y_train <- selected_train$y
 y_test <- selected_test$y
-n_tree <- 10
-n_mcmc <- 10000
-n_burn <- 5000
+n_tree <- 5
+n_mcmc <- 5000
+n_burn <- 3000
 alpha <- 0.5
 beta <- 2
 df <- 3
@@ -215,8 +215,8 @@ rsp_mod <- rspBART(x_train = x_train,
 
 
 
-saveRDS(object = rsp_mod,file = paste0("/users/research/mmarques/spline_bart_lab/preliminar_results/rspBART27/",type_,"/single_run/v31_grid2_single_run_rep_",
-                                       selected_rep_,"_n_",n_,
-                                      "_sd_",sd_,"_nIknots_",nIknots,"_ntree_",n_tree,"_nodesize_",node_min_size,
-                                      "_dif_",dif_order,"_scale_",scale_bool,"_sc_basis_",scale_basis_function,
-                                      "_nmcmc_",n_mcmc,"_nburn_",n_burn,"_rb_prior_",robust_prior,"_bpen_",pen_basis,".Rds"))
+# saveRDS(object = rsp_mod,file = paste0("/users/research/mmarques/spline_bart_lab/preliminar_results/rspBART27/",type_,"/single_run/v31_grid2_single_run_rep_",
+#                                        selected_rep_,"_n_",n_,
+#                                       "_sd_",sd_,"_nIknots_",nIknots,"_ntree_",n_tree,"_nodesize_",node_min_size,
+#                                       "_dif_",dif_order,"_scale_",scale_bool,"_sc_basis_",scale_basis_function,
+#                                       "_nmcmc_",n_mcmc,"_nburn_",n_burn,"_rb_prior_",robust_prior,"_bpen_",pen_basis,".Rds"))

@@ -979,7 +979,6 @@ change_stump <- function(tree,
 updateBetas <- function(tree,
                         curr_part_res,
                         data,
-                        trees_fit,
                         tree_number){
 
 
@@ -1054,7 +1053,6 @@ updateBetas <- function(tree,
       # Updating the residuals
       new_partial_pred <- tcrossprod(data$B_train[[node_index_var[jj]]][cu_t$train_index,,drop = FALSE],new_betas) #+ res_leaf_mean
       # Need to update the trees fit!
-      # trees_fit[tree_number,cu_t$train_index] <- trees_fit[tree_number,cu_t$train_index] - tcrossprod(data$B_train[[node_index_var[jj]]][cu_t$train_index,,drop=FALSE],old_betas) + new_partial_pred
 
       y_hat_train[cu_t$train_index,node_index_var[jj]] <- new_partial_pred # This is only regarding the basis_fit
       y_hat_test[cu_t$test_index,node_index_var[jj]] <- tcrossprod(data$B_test[[node_index_var[jj]]][cu_t$test_index,,drop = FALSE],new_betas) #+ res_leaf_mean

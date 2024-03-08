@@ -677,6 +677,10 @@ rspBART <- function(x_train,
       }
   }
 
+  # and tree predictions
+  basis_fit <- trees_fit <- matrix(0,nrow = n_tree,ncol = nrow(x_train_scale))
+  basis_fit_test <- trees_fit_test <- matrix(0,nrow = n_tree, ncol  = nrow(x_test_scale))
+
 
 
   # For cases where the tree is greater than one;
@@ -763,7 +767,7 @@ rspBART <- function(x_train,
       update_betas_aux <- updateBetas(tree = forest[[t]],
                                       curr_part_res = partial_residuals,
                                       data = data,
-                                      trees_fit = trees_fit,tree_number = t)
+                                      tree_number = t)
 
       forest[[t]] <- update_betas_aux$tree
 
